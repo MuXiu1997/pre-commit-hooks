@@ -3,20 +3,43 @@ name = "pre-commit-hooks"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-authors = [
-    { name = "MuXiu1997", email = "muxiu1997@muxiu1997.com" }
-]
 requires-python = ">=3.10"
+authors = [{ name = "MuXiu1997", email = "muxiu1997@muxiu1997.com" }]
 dependencies = []
 
 [project.scripts]
 eslint-fix = "pre_commit_hooks.eslint_fix:main"
 
+[dependency-groups]
+dev = ["pytest>=9.0.2"]
+
 [build-system]
 requires = ["uv_build>=0.8.6,<0.9.0"]
 build-backend = "uv_build"
 
-[dependency-groups]
-dev = [
-    "pytest>=9.0.2",
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+  "E",  # pycodestyle errors
+  "W",  # pycodestyle warnings
+  "F",  # pyflakes
+  "I",  # isort
+  "N",  # pep8-naming
+  "UP",  # pyupgrade
+  "B",  # flake8-bugbear
+  "ANN",  # flake8-annotations
+  "RET",  # flake8-return
+  "TC",  # flake8-type-checking
+  "PL",  # pylint
+  "RUF",  # ruff
 ]
+ignore = [
+  "E501",  # line-too-long
+]
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
