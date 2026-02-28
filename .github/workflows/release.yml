@@ -4,10 +4,32 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v3
+        with:
+          install: true
+          cache: true
+
+      - name: Install dependencies
+        run: mise exec -- uv sync --all-extras --dev
+
+      - name: Run tests
+        run: mise exec -- uv run pytest
+
   release:
     name: Release
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -18,24 +40,3 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: python
-
-      - name: Checkout
-        if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.release.outputs.tag_name }}
-
-      - name: Setup mise
-        if: ${{ steps.release.outputs.release_created }}
-        uses: jdx/mise-action@v3
-        with:
-          install: true
-          cache: true
-
-      - name: Install dependencies
-        if: ${{ steps.release.outputs.release_created }}
-        run: mise exec -- uv sync --all-extras --dev
-
-      - name: Run tests
-        if: ${{ steps.release.outputs.release_created }}
-        run: mise exec -- uv run pytest
