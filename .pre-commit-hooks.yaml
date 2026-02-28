@@ -1,0 +1,7 @@
+- id: eslint-fix
+  name: ESLint Fix
+  description: Automatically detect package manager (bun/pnpm/yarn/npm/deno) and run eslint --fix
+  entry: eslint-fix
+  language: python
+  types: [text]
+  require_serial: true
