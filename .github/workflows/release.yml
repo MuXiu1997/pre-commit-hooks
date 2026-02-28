@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Release
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: python
+
+      - name: Checkout
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.release.outputs.tag_name }}
+
+      - name: Setup mise
+        if: ${{ steps.release.outputs.release_created }}
+        uses: jdx/mise-action@v3
+        with:
+          install: true
+          cache: true
+
+      - name: Install dependencies
+        if: ${{ steps.release.outputs.release_created }}
+        run: mise exec -- uv sync --all-extras --dev
+
+      - name: Run tests
+        if: ${{ steps.release.outputs.release_created }}
+        run: mise exec -- uv run pytest
