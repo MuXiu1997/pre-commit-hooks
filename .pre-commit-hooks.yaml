@@ -1,7 +1,28 @@
 - id: eslint-fix
-  name: ESLint Fix
+  name: eslint fix
   description: Automatically detect package manager (bun/pnpm/yarn/npm/deno) and run eslint --fix
   entry: eslint-fix
   language: python
   types: [text]
-  require_serial: true
+
+- id: yamlfmt
+  name: yamlfmt
+  description: Format YAML files using Google's yamlfmt
+  entry: yamlfmt
+  args: [-formatter, 'retain_line_breaks=true,force_quote_style=single']
+  language: python
+  types: [yaml]
+
+- id: tombi-lint
+  name: tombi lint
+  description: Lint TOML files using tombi
+  entry: tombi lint
+  language: python
+  types_or: [toml]
+
+- id: tombi-format
+  name: tombi format
+  description: Format TOML files using tombi
+  entry: tombi format
+  language: python
+  types_or: [toml]

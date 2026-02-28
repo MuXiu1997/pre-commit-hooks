@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "MuXiu1997", email = "muxiu1997@muxiu1997.com" }]
-dependencies = []
+dependencies = ["google-yamlfmt>=0.21.0", "tombi>=0.7.33"]
 
 [project.scripts]
 eslint-fix = "pre_commit_hooks.eslint_fix:main"
