@@ -18,11 +18,12 @@ repos:
     rev: v0.15.4
     hooks:
       - id: ruff-check
-        args: [ --fix ]
+        args: [--fix]
       - id: ruff-format
 
-  - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v0.7.33
+  - repo: https://github.com/MuXiu1997/pre-commit-hooks
+    rev: v0.2.0
     hooks:
-      - id: tombi-format
+      - id: yamlfmt
       - id: tombi-lint
+      - id: tombi-format
